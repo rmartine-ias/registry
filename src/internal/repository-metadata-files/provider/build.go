@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"registry-stable/internal"
@@ -14,7 +13,13 @@ import (
 
 func BuildMetadataFile(p provider.Provider) (*provider.MetadataFile, error) {
 	ctx := context.Background()
-	ghClient := github.NewGitHubClient(ctx, os.Getenv("GH_TOKEN"))
+
+	token, err := github.EnvAuthToken()
+	if err != nil {
+		return nil, err
+	}
+
+	ghClient := github.NewGitHubClient(ctx, token)
 
 	repoName := p.RepositoryName()
 	releases, err := github.FetchPublishedReleases(ctx, ghClient, p.EffectiveNamespace(), repoName)
