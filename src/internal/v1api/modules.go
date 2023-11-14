@@ -94,7 +94,7 @@ func (g Generator) writeModuleVersionListing(namespace string, name string, targ
 
 // writeModuleVersionDownload writes the file containing the download link for the module version.
 // This data is to be consumed when an end user requests /v1/modules/{namespace}/{name}/{targetSystem}/{version}/download
-func (g Generator) writeModuleVersionDownload(namespace string, name string, system string, version string) interface{} {
+func (g Generator) writeModuleVersionDownload(namespace string, name string, system string, version string) error {
 	// the file should just contain a link to GitHub to download the tarball, ie:
 	// git::https://github.com/terraform-aws-modules/terraform-aws-iam?ref=v5.30.0
 	location := fmt.Sprintf("git::github.com/%s/terraform-%s-%s?ref=%s", namespace, name, system, version)
