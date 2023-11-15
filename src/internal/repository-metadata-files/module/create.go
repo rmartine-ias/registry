@@ -13,7 +13,7 @@ func CreateMetadataFile(m module.Module) error {
 	}
 
 	filePath := getFilePath(m)
-	return files.WriteToFile(filePath, repositoryFileData)
+	return files.WriteToJsonFile(filePath, repositoryFileData)
 }
 
 func getFilePath(m module.Module) string {

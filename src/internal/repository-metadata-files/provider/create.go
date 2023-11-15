@@ -13,7 +13,7 @@ func CreateMetadataFile(p provider.Provider) error {
 	}
 
 	filePath := getFilePath(p)
-	return files.WriteToFile(filePath, repositoryFileData)
+	return files.WriteToJsonFile(filePath, repositoryFileData)
 }
 
 func getFilePath(p provider.Provider) string {
