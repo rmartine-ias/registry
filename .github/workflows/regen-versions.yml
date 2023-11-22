@@ -6,7 +6,6 @@ jobs:
   bump-versions:
     runs-on: ubuntu-latest
 
-    environment: Development
     permissions:
       contents: write
       actions: write
@@ -30,13 +29,3 @@ jobs:
       - name: Run version bump script
         working-directory: ./src
         run: go run ./cmd/bump-versions
-
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: 'modules/**/* providers/**/*'
-          commit_user_name: Auto Version Bumper
-
-      - name: Invoke publish workflow
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: generate-and-deploy.yml
