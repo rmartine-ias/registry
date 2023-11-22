@@ -1,0 +1,43 @@
+name: Regen Provider and Module Versions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump-versions:
+    runs-on: ubuntu-latest
+
+    environment: Development
+    permissions:
+      contents: write
+      actions: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: './src/go.mod'
+
+      - name: Set up tools
+        run: sudo apt install -y findutils
+
+      - name: Clear existing providers
+        run: find ../providers/ ../modules | grep 'json$' | xargs -I foo bash -c "echo '{}' > foo"
+
+      - name: Run version bump script
+        working-directory: ./src
+        run: go run ./cmd/bump-versions
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'modules/**/* providers/**/*'
+          commit_user_name: Auto Version Bumper
+
+      - name: Invoke publish workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: generate-and-deploy.yml
