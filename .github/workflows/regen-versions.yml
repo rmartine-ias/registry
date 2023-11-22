@@ -24,7 +24,7 @@ jobs:
         run: sudo apt install -y findutils
 
       - name: Clear existing providers
-        run: find ../providers/ ../modules | grep 'json$' | xargs -I foo bash -c "echo '{}' > foo"
+        run: find ./providers/ ./modules | grep 'json$' | xargs -I foo bash -c "echo '{}' > foo"
 
       - name: Run version bump script
         working-directory: ./src
