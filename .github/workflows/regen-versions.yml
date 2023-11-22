@@ -1,7 +1,6 @@
 name: Regen Provider and Module Versions
 
-on:
-  workflow_dispatch:
+on: [push]
 
 jobs:
   bump-versions:
