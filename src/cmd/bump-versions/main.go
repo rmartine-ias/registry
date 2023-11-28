@@ -47,7 +47,7 @@ func main() {
 		logger.Error("Failed to list providers", slog.Any("err", err))
 		os.Exit(1)
 	}
-	err = providers.Parallel(20, func(p provider.Provider) error {
+	err = providers.Parallel(200, func(p provider.Provider) error {
 		return p.UpdateMetadataFile()
 	})
 	if err != nil {
