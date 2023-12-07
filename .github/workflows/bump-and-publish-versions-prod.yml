@@ -1,0 +1,24 @@
+name: Bump Provider and Module Versions and Publish Them
+
+on:
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  bump-versions:
+    runs-on: ubuntu-latest
+
+    environment: Production
+    steps:
+      - name: Invoke bump versions workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: bump-versions.yml
+          inputs: '{"environment": "Production"}'
+
+      - name: Invoke publish workflow
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: generate-and-deploy.yml
+          inputs: '{"environment": "Production"}'
